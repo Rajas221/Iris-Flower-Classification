@@ -1,0 +1,47 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris # Load the iris dataset
+from sklearn.model_selection import train_test_split # Split the data into training and testing sets
+from sklearn.preprocessing import StandardScaler #For Feature Scaling
+from sklearn.neighbors import KNeighborsClassifier # KNN Classifier
+from sklearn.metrics import classification_report, confusion_matrix # For evaluating the model
+
+iris = load_iris() # Load the iris dataset
+df = pd.DataFrame(data=iris.data, columns=iris.feature_names)# Create a DataFrame from the iris dataset
+df['target'] = iris.target #Now we have a target column in our DataFrame
+df['species'] = pd.Categorical.from_codes(iris.target, iris.target_names) # Create a species column from the target codes
+df.head() # Display the first few rows of the DataFrame where  0 = setosa, 1 = versicolor, 2 = virginica
+
+#EDA 
+
+print(df.info()) # Display the information about the DataFrame (Data types,non-null values, etc.)
+print(df.describe()) # Display the descriptive statistics of the DataFrame (Mean, std, min, max, etc.)
+print(df['species'].value_counts()) # Display the count of each species in the DataFrame (Class Balance)
+sns.pairplot(df,hue='species') #Scatter Plots
+plt.show() # Display the pairplot of the DataFrame
+
+#Preprocessing the data#
+
+X= df[iris.feature_names] #Features
+y= df['target'] # Split the DataFrame into features and target variable (Labels)
+
+#Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42) # Split the data into training and testing sets
+#Test size = 0.2 means 20% of the data will be used for testing and 80% for training
+#Random state is used for reproducibility, so that the same split can be obtained every time the code is run
+
+#Feature Scaling#
+scaler = StandardScaler() # Create a StandardScaler object
+X_train = scaler.fit_transform(X_train) # Fit the scaler to the training data and transform it
+X_test = scaler.transform(X_test) # Transform the testing data using the fitted scaler
+
+#Train KNN Classifier#
+knn = KNeighborsClassifier(n_neighbors=3) # Create a KNeighborsClassifier object with 3 neighbors
+knn.fit(X_train, y_train) # Fit the classifier to the training data
+
+#Evaluate the model
+y_pred = knn.predict(X_test) # Make predictions on the testing data
+print(confusion_matrix(y_test, y_pred)) # Display the confusion matrix
+print(classification_report(y_test, y_pred)) # Display the classification report

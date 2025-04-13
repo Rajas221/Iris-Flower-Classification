@@ -1,0 +1,62 @@
+Iris Flower Classification
+
+Objective : Classify flowers into one of three categories
+1. Sentosa
+2. Versicolor
+3. Viginica 
+ 
+Based on four features
+1. Sepal Length
+2. Sepal Width
+3. Petal Length
+4. Petal Width 
+
+Tools Required
+
+Python, Pandas (Data Manipulation), NumPy(Numerical Operations), Matplotlib(For Plotting), Seaborn(For Visualisations), scikit-learn(ML Library)
+
+The load_iris() function returns a dictionary-like object (Bunch) with:
+
+    .data: features
+
+    .target: labels (0 = setosa, 1 = versicolor, 2 = virginica)
+
+    .feature_names: list of feature names
+
+    .target_names: ['setosa', 'versicolor', 'virginica']
+
+#Creation of Data frame 
+    
+    DataFrame: Gives us a nice table structure for easy exploration and modeling.
+
+    target: Numeric label for training.
+
+    species: Human-readable label for understanding.
+
+#EDA Goal
+    Understand data distribution.
+
+    Detect outliers, patterns, and relationships.
+
+    Spot imbalances or anomalies.
+
+#Pre Processing
+    Used 80% for training and 20% for testing
+
+#Feature Scaling (Important for KNN Algo)
+ We scale because KNN uses Euclidean Distance and without scaling, larger features dominate like Petal Length 
+
+ #Model Training using KNN
+    What is KNN?
+        A non-parametric classification algorithm.
+
+        Given a new data point, it finds the k nearest data points in training data.
+
+        It assigns the most common class among those neighbors. 
+    Distance Metric : Euclidean Distance
+    K Value = Number of neighbors to consider (Too small = Noisy, Too large = Overly General)
+
+#Preds and Evals
+    Confusion Matrix shows TP and FP
+
+    Classification Report shows precision, recall, F1 score, Accuracy.
